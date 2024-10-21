@@ -1,0 +1,28 @@
+{% extends "loging_page.html" %}
+
+{% block title%} Login Page {%endblock%}
+
+{% block main %}
+
+
+<form class="form-detail" action="/login" method="post">
+  <h4 class="error-message">{{ message }}</h4>
+  <h2>Enter Your Account</h2>
+  <div class="form-row">
+    <label for="your-email">ID</label>
+    <input type="text" name="email" id="your-email" class="input-text" placeholder="Your ID">
+    <i class="fas fa-envelope"></i>
+  </div>
+  <div class="form-row">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" class="input-text" placeholder="Your Password" required>
+    <i class="fas fa-lock"></i>
+  </div>
+  <div class="form-row-last">
+    <input type="submit" name="login" class="register" value="Sing In">
+  </div>
+</form>
+{% endblock %}
+
+                
+   

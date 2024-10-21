@@ -1,0 +1,20 @@
+/* Default style for the contest status */
+.body-right-bar .container {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Additional style when the contest is over */
+  .body-right-bar .container .contest-over {
+    background-color: #d9534f; /* Bootstrap 'btn-danger' color */
+    color: white;
+    border-left: 5px solid #d43f3a; /* Slightly darker shade for contrast */
+  }
+  
+  /* Additional style when the contest is running */
+  .body-right-bar .container .contest-running {
+    background-color: #5cb85c; /* Bootstrap 'btn-success' color */
+    color: white;
+    border-left: 5px solid #4cae4c; /* Slightly darker shade for contrast */
+  }
+  

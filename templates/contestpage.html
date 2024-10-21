@@ -1,0 +1,201 @@
+{% extends "layout.html" %}
+
+{% block style %} 
+<link rel="stylesheet" href="/static/css/contest.css"/>
+<link rel="stylesheet" href="/static/css/form.css"/>
+<link rel="stylesheet" href="/static/css/formfelx.css"/>
+<link rel="stylesheet" href="/static/css/contest_timer.css"/>
+{% endblock %}
+
+{% block Title %} {{contest['contest_name']}} {% endblock %}
+
+{% block main %}
+
+{% if Manger is true%}
+<form class="form-detail" action="" method="POST">
+  <div class="form-row" style="background-color: rgba(168, 169, 170, 0.397); padding: 30px;">
+    <label for="contestName">Contest Name:</label>
+    <input type="text" id="contestName" name="contestName" required value="{{contest['contest_name']}}"><br><br>
+
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" id="startTime" name="startTime" required value="{{contest['start_time']}}"><br><br>
+
+    <label for="duration">Duration (in minutes):</label>
+    <input type="number" id="duration" name="duration" required value="{{contest['duration']}}"><br><br>
+
+    <div class="form-row" style="display: flex; justify-content: center;">
+    <button type="submit" class="register" style="background-color: green; justify-self: center;">Save</button>
+    </div>
+  </div>
+</form>
+{% endif %}
+          
+            
+{% if Manger is true %}
+<!-- Add Problem Form -->
+<div class="form-row row-flex">
+    <form class="form-detail form-detail-flex" action="/contests/{{contest['id']}}/add_problem" method="POST">
+      <!-- Problem Name -->
+      
+        <div class="row-slot">
+          <label for="problemName">Name:  </label>
+          <input style="width: 200px;" class="input-row" type="text" id="problemName" name="problemName" required>
+        </div>
+        
+    <!-- Rate -->
+    <div class="row-slot">
+      <label for="rate">rate:</label>
+      <input class="input-row" type="number" id="rate" name="rate" required>
+    </div>
+
+      <!-- Add Button -->
+    <div style="flex: 0; display: flex; align-items: center;">
+      <button type="submit" class="register" style="background-color: green; margin: 0px; height: 40px; width: 80px;">Add</button>
+    </div>
+</form>
+</div>
+{% endif %}
+
+<div class="table-container">
+  
+  
+  
+  <table>
+    <thead>
+          <tr>
+            <th>Name</th>
+            <th class="center_th">Rate</th>
+            <th class="center_th">Solved</th>
+            {% if Manger is true%}
+              <th class="center_th">Edit</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+          
+            <!-- Repeat this row for each entry -->
+            {% for problem in problems %}
+            <tr class="entry">
+              <!-- Name -->
+              <td><a href="/problems/{{problem['id']}}">{{problem['name']}} #{{problem['id']}}</a></td>
+              
+              <!-- Rate -->
+              <td class="center_th">{{problem['rate']}}</td>
+              
+              <!-- Solved -->
+              <td class="center_th" style="color: green;">x43</td>
+              
+              {% if Manger is true%}
+               <td class="center_th">
+                 <div class="form-detail" style="padding: 0;">
+                  <div class="form-row" style="height: 40px;">
+                    <button type="submit" data-id="{{problem['id']}}" class="register deleteButton"
+                     style="background-color: rgb(178, 12, 12); width: 40px; height: 40px; margin: 0; padding: 10px; text-align: center;">X</button>
+                    </div>
+                  </div>
+                  
+                </td>
+               {% endif %}
+         <div class="right-bar">
+          
+        </div>
+
+            </tr>
+
+          <!-- ... other rows ... -->
+          {% endfor %}
+
+      </tbody>
+  </table>
+</div>
+
+<script>
+document.querySelectorAll('.deleteButton').forEach(button => {
+    button.addEventListener('click', function() {
+        const itemId = this.getAttribute('data-id');
+        const apiUrl = `/contests/${itemId}`;
+        
+        fetch(apiUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any other headers if needed
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Item deleted successfully!');
+                const trNode = this.closest('tr');
+                if (trNode) {
+                    trNode.parentNode.removeChild(trNode);
+                }
+            } else {
+                alert('Error deleting item.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error deleting item.');
+        });
+    });
+});
+</script>
+
+{% endblock %}
+
+
+
+{% block RightBar%}
+
+<div class="body-right-bar">
+<div class="container">
+  <h2 class="contest-status {% if timeleft > 0 %}contest-running{% else %}contest-over{% endif %}">
+    {% if timeleft > 0 %}
+      Contest is Running
+    {% else %}
+      Contest is Over
+    {% endif %}
+  </h2>
+  {% if timeleft > 0 %}
+    <h1 id="timerDisplay" style="margin: 0; margin-bottom: 10px;">{{timeview}}</h1>
+  {% endif %}
+</div>
+</div>
+
+
+<script>
+
+  function startTimer(totalSeconds, display) {
+      timerDisplay = document.getElementById("timerDisplay");
+      let timer = totalSeconds, seconds;
+      const oneSecond = 1000;
+
+      const countdownInterval = setInterval(function () {
+          hours = Math.floor(timer / 3600);
+          minutes = Math.floor((timer % 3600) / 60);
+          seconds = Math.floor(timer % 60);
+
+          hours = hours < 10 ? "0" + hours : hours;
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          display.textContent = hours + ":" + minutes + ":" + seconds;
+
+          if (timer-- < 0) {
+              clearInterval(countdownInterval);
+              display.textContent = "00:00:00";
+              alert('Contest Is Over');
+              location.reload();
+          }
+      }, oneSecond);
+  }
+
+  // Start the timer when the page loads
+  window.onload = function () {
+      const seconds = {{timeleft}};
+      startTimer(seconds, timerDisplay);
+  };
+
+</script>
+
+{% endblock%}

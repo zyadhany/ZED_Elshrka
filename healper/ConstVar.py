@@ -1,0 +1,1 @@
+LOGIN_URL_ENDPOINTS = {'root_bp.login_route', 'root_bp.register_route', 'static'}

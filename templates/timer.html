@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: #5eb2b3;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh; /* Set the height of the body to 100% of the viewport height */
+        }
+
+        .timer {
+            height: 100%;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            width: 200px; /* Set the width to the desired value */
+        }
+
+        #timerDisplay {
+            font-weight: 700;
+            font-size: 73px;
+            justify-self: center;
+            align-self: center;
+            color: white;
+        }
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <link rel="stylesheet" href="timer.css">
+</head>
+<body>
+    <div class="timer">
+        <h1 id="timerDisplay">{{timeview}}</h1>
+    </div>
+    <script>
+
+        function startTimer(totalSeconds, display) {
+            timerDisplay = document.getElementById("timerDisplay");
+            let timer = totalSeconds, seconds;
+            const oneSecond = 1000;
+
+            const countdownInterval = setInterval(function () {
+                hours = Math.floor(timer / 3600);
+                minutes = Math.floor((timer % 3600) / 60);
+                seconds = Math.floor(timer % 60);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+
+                if (timer-- < 0) {
+                    clearInterval(countdownInterval);
+                    display.textContent = "00:00:00";
+                    alert('Contest has started');
+                    location.reload();
+                }
+            }, oneSecond);
+        }
+
+        // Start the timer when the page loads
+        window.onload = function () {
+            const seconds = {{timeleft}};
+            startTimer(seconds, timerDisplay);
+        };
+
+    </script>
+
+</body>
+</html>

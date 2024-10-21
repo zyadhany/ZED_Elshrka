@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block style %} 
+<link rel="stylesheet" href="/static/css/profile.css"/>
+{% endblock %}
+
+{% block Title %} Profile {% endblock %}
+
+{% block main %} 
+<form class="form-detail" method="post">
+	<div class="data-input">
+		<div class="form-row">
+			<label for="age">Age</label>
+			<input type="number" name="age" id="age" class="input-text" placeholder="Your Age", value="{{user['age']}}">
+			<i class="fas fa-user"></i>
+		</div>
+		<div class="form-row">
+			<label for="gender">Gender</label>
+			<select id="gender" value="{{user['gender']}}" name="gender" class="input-text" style="background-color: #fff; width: 300px; height: 50px; color: #999;" >
+				<option value="">Select Gender</option>
+				<option value="male" {% if user['gender'] == 'male' %}selected{% endif %}>Male</option>
+				<option value="female" {% if user['gender'] == 'female' %}selected{% endif %}>Female</option>			  
+				<option value="Eng" {% if user['gender'] == 'Eng' %}selected{% endif %}>Eng</option>
+			</select>
+			<i class="fas fa-venus-mars"></i>
+		</div>
+		<div class="form-row">
+			<label for="image">Select Image</label>
+			<input type="file" id="image" class="input-file" accept="image/*" style="background-color: #fff;">
+			<i class="fas fa-image"></i>
+		</div>
+		<div class="form-row">
+			<label for="birthday">Birthday</label>
+			<input type="date" id="birthday" class="input-text" >
+			<i class="fas fa-birthday-cake"></i>
+		</div>
+		<div class="form-row">
+			<label for="status">status</label>
+			<textarea id="status" name="status" maxlength="1024" rows="10" cols="50">{{user['status']}}</textarea>
+			<i class="fas fa-birthday-cake"></i>
+		</div>
+	</div>
+	<div class="form-row-last">
+		<input type="submit" class="register", value="Save">
+	</div>
+</form>
+{% endblock %} 

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block style %} 
+<link rel="stylesheet" href="/static/css/contest.css"/>
+{% endblock %}
+
+{% block Title %} problems {% endblock %}
+
+{% block main %}
+
+<div class="table-container">
+  <table>
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th class="center_th">Rate</th>
+              <th class="center_th">Solved</th>
+              
+            </tr>
+          </thead>
+    {% for problem in problems %}
+          <tbody>
+            <!-- Repeat this row for each entry -->
+            <tr class="entry">
+              <!-- Name -->
+              <td><a href="/problems/{{problem['id']}}">{{problem['name']}} #{{problem['id']}}</a></td>
+
+               <!-- Rate -->
+               <td class="center_th">{{problem['rate']}}</td>
+
+               <!-- Solved -->
+               <td class="center_th" style="color: green;">x43</td>
+          </tr>
+
+          <!-- ... other rows ... -->
+
+      </tbody>
+      {% endfor %}
+  </table>
+</div>
+
+
+
+{% endblock %}
