@@ -1,1 +1,0 @@
-from .contests import contests_bp

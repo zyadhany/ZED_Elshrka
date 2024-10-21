@@ -2,7 +2,7 @@ import imghdr
 
 from flask import redirect, render_template, session, request
 import requests
-from models import storage, account, User
+from models import storage, account
 from functools import wraps
 
 def register_post(post):

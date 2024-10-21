@@ -9,6 +9,10 @@ from sqlalchemy.orm import relationship
 class account(BaseModel, Base):
     """This class defines a user by various attributes"""
     __tablename__ = 'accounts'
-    email = Column(String(255), unique=True, nullable=False)
+    saged = Column(String(60), primary_key=True)
+    username = Column(String(255), nullable=False)
     password = Column(String(255), nullable=False)
-    user = relationship("User", uselist=False, backref="account") 
+    gender = Column(String(255), nullable=False)
+    phonenumber = Column(String(255), nullable=False)
+    role = Column(String(255), nullable=False)
+

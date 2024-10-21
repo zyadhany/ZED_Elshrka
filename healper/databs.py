@@ -1,5 +1,5 @@
 from flask import session
-from models import storage, User
+from models import storage
 
 
 def user_profile():

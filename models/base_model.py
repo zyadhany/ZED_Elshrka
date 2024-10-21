@@ -13,7 +13,7 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
 
-    id = Column(INTEGER, primary_key=True, nullable=False, autoincrement=True)
+    id = Column(INTEGER, primary_key=True, nullable=False)
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
