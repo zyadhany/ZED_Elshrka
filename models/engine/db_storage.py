@@ -13,8 +13,6 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 classes = {
             'users': User, 'accounts' : account,
-            'contests': Contest, 'problems':Problem,
-            'submissions':Submission, 'groups': Group
         }
 
 def ConvertStrCls(st):
@@ -30,14 +28,8 @@ class DBStorage:
 
     def __init__(self):
         """init for dp sttorage"""
-        SQL_USER = 'saged'
-        SQL_PWD = '123'
-        SQL_HOST = 'localhost'
-        SQL_DB = 'DB_CODEHUCK'
-
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                                      format(SQL_USER, SQL_PWD,
-                                             SQL_HOST, SQL_DB),
+        SQLITE_DB_PATH = 'local_database.db'
+        self.__engine = create_engine(f'sqlite:///{SQLITE_DB_PATH}',
                                       pool_pre_ping=True)
         Base.metadata.create_all(self.__engine)
         #Base.metadata.drop_all(self.__engine)
